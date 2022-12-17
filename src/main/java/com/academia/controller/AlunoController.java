@@ -5,6 +5,7 @@ import com.academia.model.dto.AlunoCpf;
 import com.academia.model.dto.AlunoForm;
 import com.academia.service.AlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,9 @@ public class AlunoController {
     public ResponseEntity<List<Aluno>> getAll(
             @RequestParam(value = "cpf", required = false) String cpf,
             @RequestParam(value = "nome", required = false) String nome,
-            @RequestParam(value = "dataNascimento", required = false) LocalDate dataNascimento
+
+            @RequestParam(value = "dataNascimento", required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataNascimento
     ) {
         return ResponseEntity.status(HttpStatus.OK).body(alunoService.findAll(cpf, nome, dataNascimento));
     }
