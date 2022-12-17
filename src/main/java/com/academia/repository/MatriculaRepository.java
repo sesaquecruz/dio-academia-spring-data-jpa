@@ -13,4 +13,6 @@ public interface MatriculaRepository extends JpaRepository<Matricula, Long> {
     List<Matricula> findByData(LocalDate data);
 
     List<Matricula> findByAluno(Aluno aluno);
+
+    long deleteByAluno(Aluno aluno);
 }

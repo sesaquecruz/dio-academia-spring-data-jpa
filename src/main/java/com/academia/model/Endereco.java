@@ -24,7 +24,7 @@ public class Endereco {
     private String complemento;
     @Column(nullable = false)
     private String bairro;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "aluno_id")
     private Aluno aluno;
 }

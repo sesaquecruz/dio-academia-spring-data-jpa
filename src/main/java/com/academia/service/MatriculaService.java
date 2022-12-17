@@ -10,8 +10,8 @@ import com.academia.repository.MatriculaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +36,7 @@ public class MatriculaService {
         return matriculaRepository.findAll();
     }
 
+    @Transactional
     public Matricula save(MatriculaForm matriculaForm) {
         Optional<Aluno> alunoSaved = alunoRepository.findByCpf(matriculaForm.getAluno().getCpf()).stream().findFirst();
 

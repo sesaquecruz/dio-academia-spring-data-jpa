@@ -9,6 +9,7 @@ import com.academia.repository.EnderecoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +38,7 @@ public class EnderecoService {
         return enderecoRepository.findAll();
     }
 
+    @Transactional
     public Endereco update(EnderecoForm enderecoForm) {
         Optional<Aluno> alunoSaved = alunoRepository.findByCpf(enderecoForm.getAluno().getCpf()).stream().findFirst();
 
