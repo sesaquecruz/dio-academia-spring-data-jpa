@@ -7,10 +7,13 @@ import com.academia.model.Endereco;
 import com.academia.model.dto.AlunoCpf;
 import com.academia.model.dto.AlunoForm;
 import com.academia.repository.AlunoRepository;
+import com.academia.repository.AvaliacaoFisicaRepository;
 import com.academia.repository.EnderecoRepository;
+import com.academia.repository.MatriculaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +24,10 @@ public class AlunoService {
     private AlunoRepository alunoRepository;
     @Autowired
     private EnderecoRepository enderecoRepository;
+    @Autowired
+    private MatriculaRepository matriculaRepository;
+    @Autowired
+    private AvaliacaoFisicaRepository avaliacaoFisicaRepository;
 
     public List<Aluno> findAll(String cpf, String nome, LocalDate dataNascimento) {
         if(cpf != null)
@@ -33,6 +40,7 @@ public class AlunoService {
         return alunoRepository.findAll();
     }
 
+    @Transactional
     public Aluno save(AlunoForm alunoForm) {
         Optional<Aluno> alunoSaved = alunoRepository.findByCpf(alunoForm.getCpf()).stream().findFirst();
 
@@ -60,6 +68,7 @@ public class AlunoService {
         return aluno;
     }
 
+    @Transactional
     public Aluno update(AlunoForm alunoForm) {
         Optional<Aluno> alunoSaved = alunoRepository.findByCpf(alunoForm.getCpf()).stream().findFirst();
 
@@ -91,18 +100,17 @@ public class AlunoService {
         return aluno;
     }
 
+    @Transactional
     public void delete(AlunoCpf alunoCpf) {
         Optional<Aluno> alunoSaved = alunoRepository.findByCpf(alunoCpf.getCpf()).stream().findFirst();
 
         if(alunoSaved.isEmpty())
             throw new AlunoNotFoundException();
 
-        Optional<Endereco> enderecoSaved = enderecoRepository.findByAluno(alunoSaved.get()).stream().findFirst();
-
-        if(enderecoSaved.isEmpty())
-            throw new AlunoNotFoundException();
-
-        enderecoRepository.delete(enderecoSaved.get());
-        alunoRepository.delete(alunoSaved.get());
+        Aluno aluno = alunoSaved.get();
+        enderecoRepository.deleteByAluno(aluno);
+        matriculaRepository.deleteByAluno(aluno);
+        avaliacaoFisicaRepository.deleteByAluno(aluno);
+        alunoRepository.delete(aluno);
     }
 }
