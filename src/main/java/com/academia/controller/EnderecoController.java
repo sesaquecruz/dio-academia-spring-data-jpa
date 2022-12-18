@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,7 +28,7 @@ public class EnderecoController {
     }
 
     @PutMapping
-    public ResponseEntity<Endereco> update(@RequestBody EnderecoForm enderecoForm) {
+    public ResponseEntity<Endereco> update(@Valid @RequestBody EnderecoForm enderecoForm) {
         return ResponseEntity.status(HttpStatus.OK).body(enderecoService.update(enderecoForm));
     }
 }

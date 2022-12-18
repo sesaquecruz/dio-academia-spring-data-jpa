@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -31,17 +32,17 @@ public class AlunoController {
     }
 
     @PostMapping
-    public ResponseEntity<Aluno> create(@RequestBody AlunoForm alunoForm) {
+    public ResponseEntity<Aluno> create(@Valid @RequestBody AlunoForm alunoForm) {
         return ResponseEntity.status(HttpStatus.CREATED).body(alunoService.save(alunoForm));
     }
 
     @PutMapping
-    public ResponseEntity<Aluno> update(@RequestBody AlunoForm alunoForm) {
+    public ResponseEntity<Aluno> update(@Valid @RequestBody AlunoForm alunoForm) {
         return ResponseEntity.status(HttpStatus.OK).body(alunoService.update(alunoForm));
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> delete(@RequestBody AlunoCpf alunoCpf) {
+    public ResponseEntity<Void> delete(@Valid @RequestBody AlunoCpf alunoCpf) {
         alunoService.delete(alunoCpf);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
