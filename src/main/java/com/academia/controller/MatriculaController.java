@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class MatriculaController {
     }
 
     @PostMapping
-    public ResponseEntity<Matricula> create(@RequestBody MatriculaForm matriculaForm) {
+    public ResponseEntity<Matricula> create(@Valid @RequestBody MatriculaForm matriculaForm) {
         return ResponseEntity.status(HttpStatus.CREATED).body(matriculaService.save(matriculaForm));
     }
 }
